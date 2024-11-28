@@ -28,10 +28,10 @@ const LoginPage = () => {
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-            {/* Email Validation Start */}
+            {/* Email Validation Start  Activer=*/}
             <div className="form-control">
               <label className="label" htmlFor="email">
-                <span className="label-text text-lg font-semibold ">
+                <span className="label-text text-lg font-semibold">
                   Email :
                 </span>
               </label>
@@ -40,43 +40,54 @@ const LoginPage = () => {
                   name="email"
                   control={control}
                   rules={{
-                    required: "Email is Required",
+                    required: "Email is required",
                     pattern: {
                       value: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: "Invalid email address",
                     },
                   }}
-                  render={({ field }) => (
-                    <div className="relative">
-                      <input
-                        {...field}
-                        id="email"
-                        className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                          errors.email ? "border-red-500" : "border-gray-300"
-                        }`}
-                        placeholder="Enter Email ID"
-                        aria-invalid={!!errors.email}
-                        aria-describedby="email-feedback"
-                      />
-                      {errors.email ? (
-                        <p className="text-red-500 text-sm mt-1">
-                          {errors.email.message}
-                        </p>
-                      ) : (
-                        field.value && (
-                          <p className="text-green-500 text-sm mt-1">
+                  render={({ field, fieldState }) => {
+                    const { error } = fieldState;
+
+                    return (
+                      <div className="relative">
+                        <input
+                          {...field}
+                          id="email"
+                          className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            error
+                              ? "border-red-500"
+                              : field.value
+                              ? "border-green-500"
+                              : "border-gray-300"
+                          }`}
+                          placeholder="Enter Email ID"
+                          aria-invalid={!!error}
+                          aria-describedby="email-feedback"
+                        />
+                        {error ? (
+                          <p
+                            id="email-feedback"
+                            className="text-red-500 text-sm mt-1"
+                          >
+                            {error.message}
+                          </p>
+                        ) : field.value ? (
+                          <p
+                            id="email-feedback"
+                            className="text-green-500 text-sm mt-1"
+                          >
                             Email is valid!
                           </p>
-                        )
-                      )}
-                    </div>
-                  )}
+                        ) : null}
+                      </div>
+                    );
+                  }}
                 />
               </div>
             </div>
-            {/* Email Validation End */}
 
-            {/* Password validation start */}
+            {/* Password Validation Start */}
             <div className="form-control">
               <label className="label" htmlFor="password">
                 <span className="label-text text-lg font-semibold">
@@ -88,45 +99,62 @@ const LoginPage = () => {
                   name="password"
                   control={control}
                   rules={{
-                    required: "Password is Required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
+                    required: "Password is required",
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+                      message:
+                        "Password must be at least 8 characters long, include uppercase, lowercase, and a number",
                     },
                   }}
-                  render={({ field }) => (
-                    <div>
-                      <input
-                        {...field}
-                        id="password"
-                        type="password"
-                        className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                          errors.password ? "border-red-500" : "border-gray-300"
-                        }`}
-                        placeholder="Enter Password"
-                        aria-invalid={!!errors.password}
-                        aria-describedby="password-feedback"
-                      />
-                      {errors.password ? (
-                        <p
-                          id="password-feedback"
-                          className="text-red-500 text-sm mt-1"
-                        >
-                          {errors.password.message}
-                        </p>
-                      ) : null}
-                    </div>
-                  )}
+                  render={({ field, fieldState }) => {
+                    const { error } = fieldState;
+
+                    return (
+                      <div className="relative">
+                        <input
+                          {...field}
+                          id="password"
+                          type="password"
+                          className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            error
+                              ? "border-red-500"
+                              : field.value
+                              ? "border-green-500"
+                              : "border-gray-300"
+                          }`}
+                          placeholder="Enter Password"
+                          aria-invalid={!!error}
+                          aria-describedby="password-feedback"
+                        />
+                        {error ? (
+                          <p
+                            id="password-feedback"
+                            className="text-red-500 text-sm mt-1"
+                          >
+                            {error.message}
+                          </p>
+                        ) : field.value ? (
+                          <p
+                            id="password-feedback"
+                            className="text-green-500 text-sm mt-1"
+                          >
+                            Password is strong!
+                          </p>
+                        ) : null}
+                      </div>
+                    );
+                  }}
                 />
               </div>
             </div>
             {/* Password Validation End */}
+
             <div className="form-control mt-6">
               <input
-                className="btn btn-primary"
+                className="btn btn-primary text-xl"
                 type="submit"
                 disabled={false}
-                value="login"
+                value="Login"
               />
             </div>
           </form>
