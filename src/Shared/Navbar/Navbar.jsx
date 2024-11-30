@@ -15,8 +15,8 @@ const Container = ({ children, className }) => {
 
 const navigationLinks = [
   { title: "Home", link: "/" },
-  { title: "Our Menu", link: "/all-menu-item" },
-  { title: "Order", link: "/order-food-item/salad" },
+  { title: "About Us", link: "/about-us-more-information" },
+  { title: "Service", link: "/all-repair-services" },
   { title: "Secret", link: "/secret" },
 ];
 
@@ -48,7 +48,7 @@ const Navbar = () => {
       }`}
     >
       <Container className="h-full flex items-center justify-between">
-        <h1 className="text-xl font-bold">Mozammel Hosen</h1>
+        <h1 className="text-xl font-bold">Repair</h1>
         {/* <img src={logoDark} alt="logoDark" className="w-10 " /> */}
 
         <div className="hidden md:flex items-center gap-x-6 uppercase text-xs lg:text-sm font-medium tracking-wide">
@@ -65,6 +65,7 @@ const Navbar = () => {
               <span className="w-full h-[1px] bg-white inline-block absolute bottom-0 left-0 -translate-x-[110%] group-hover:translate-x-0 duration-300" />
             </Link>
           ))}
+
           <Link
             to="/login"
             className={location.pathname === "/login" ? "text-orange-500" : ""}
@@ -178,6 +179,7 @@ const Navbar = () => {
               >
                 Login
               </Link>
+              ''
             </div>
           </DialogPanel>
         </div>

@@ -1,14 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import notFound from "../../assets/notFound/NotFound.gif";
 const ErrorPages = () => {
   return (
-    <div>
-      <h1>Error Pages</h1>
-      <button className="btn btn-secondary">
-        {" "}
-        <Link to={"/"}></Link>
-      </button>
+    <div className="mt-20">
+      <img className="w-full max-h-screen mx-auto" src={notFound} alt="not-found" />
     </div>
   );
 };
