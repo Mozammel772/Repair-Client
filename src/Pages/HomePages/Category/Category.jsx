@@ -60,7 +60,6 @@
 // export default Category;
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
 import useAxiosrepair from "../../../hooks/useCategory/useCategory";
 import Loading from "../../../Shared/Loading/Loading";
@@ -105,9 +104,9 @@ const Category = () => {
       {!loading && !error && category.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
           {category.map((item, index) => (
-            <Link
+            <div
               key={index}
-              to={`/all-category-repair/${item.id}`}
+              
               className="card card-compact bg-base-100 w-full shadow-xl"
             >
               <figure>
@@ -121,7 +120,7 @@ const Category = () => {
                   {item.totalService} + Service
                 </p>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}
