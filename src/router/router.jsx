@@ -7,6 +7,7 @@ import Login from "../Pages/Register/Login/Login";
 import Register from "../Pages/Register/Register/Register";
 import Service from "../Pages/ServicePages/Service/Service";
 import ServiceRequest from "../Pages/ServiceRequestPages/ServiceRequest/ServiceRequest";
+import PrivateRouter from "./PrivateRouter";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +27,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/service-request",
-        element: <ServiceRequest />,
+        element: (
+          <PrivateRouter>
+            <ServiceRequest />
+          </PrivateRouter>
+        ),
       },
       {
         path: "/register",

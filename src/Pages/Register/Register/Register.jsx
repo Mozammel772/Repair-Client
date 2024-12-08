@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-
 const Register = () => {
   const {
     control,
@@ -15,46 +16,33 @@ const Register = () => {
   } = useForm();
   const { createUser } = useContext(AuthContext);
   const [error, setError] = useState("");
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const axiosPublic = useAxioPublic();
 
   const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Create User successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigate("/");
-      })
-      .catch((err) => {
-        if (err.code === "auth/email-already-in-use") {
-          setError("This email is already in use. Please use a different email.");
-      } else if (err.code === "auth/invalid-email") {
-          setError("Invalid email address. Please enter a valid email.");
-      } else if (err.code === "auth/weak-password") {
-          setError("Weak password. Password must be at least 6 characters.");
-      } else {
-          setError("An unexpected error occurred. Please try again.");
-      }
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title:  error ,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        // ..
-      });
-
-    reset({
-      name: "",
-      email: "",
-      password: "",
+    createUser(data.email, data.password).then((result) => {
+      const user = result.user;
+      const userInfo = {
+        Name: user.name, // Sending the name entered by the user
+        Email: user.email,
+        Password: user.password,
+      };
+      axiosPublic
+        .post("/users", userInfo)
+        .then((res) => {
+          if (res.data.insertedId) {
+            reset();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Create User successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          } 
+        })
     });
   };
 
@@ -213,7 +201,7 @@ const Register = () => {
                         <input
                           {...field}
                           id="password"
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                             error
                               ? "border-red-500"
@@ -225,6 +213,16 @@ const Register = () => {
                           aria-invalid={!!error}
                           aria-describedby="password-feedback"
                         />
+                        <span
+                          onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                        >
+                          {showPassword ? (
+                            <AiFillEyeInvisible size={20} />
+                          ) : (
+                            <AiFillEye size={20} />
+                          )}
+                        </span>
                         {error ? (
                           <p
                             id="password-feedback"

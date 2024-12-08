@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import image from "../../../assets/about/ac-repair.jpg";
 import CoverSection from "../../../Components/CoverSection/CoverSection";
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
+import {
+  AuthContext,
+} from "../../Register/AuthProvider/AuthProvider";
 const ServiceRequest = () => {
   const {
     control,
@@ -11,7 +14,8 @@ const ServiceRequest = () => {
     watch,
     formState: { errors },
   } = useForm();
-
+  const { user } = useContext(AuthContext);
+  console.log("register", user);
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -59,44 +63,19 @@ const ServiceRequest = () => {
                       rules={{
                         required: "First name is required",
                         pattern: {
-                          value: /^[a-zA-Z\s]+$/,
+                          value: {},
                           message: "Name can only contain letters and spaces",
                         },
                       }}
                       render={({ field, fieldState }) => {
-                        const { error } = fieldState;
-
                         return (
                           <div className="relative">
                             <input
-                              {...field}
                               id="fname"
-                              className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                                error
-                                  ? "border-red-500"
-                                  : field.value
-                                  ? "border-green-500"
-                                  : "border-gray-300"
-                              }`}
+                              className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 `}
                               placeholder="Enter Your Name"
-                              aria-invalid={!!error}
                               aria-describedby="name-feedback"
                             />
-                            {error ? (
-                              <p
-                                id="name-feedback"
-                                className="text-red-500 text-sm mt-1"
-                              >
-                                {error.message}
-                              </p>
-                            ) : field.value ? (
-                              <p
-                                id="name-feedback"
-                                className="text-green-500 text-sm mt-1"
-                              >
-                                Name is valid!
-                              </p>
-                            ) : null}
                           </div>
                         );
                       }}

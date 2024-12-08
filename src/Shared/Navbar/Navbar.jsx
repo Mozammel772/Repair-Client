@@ -1,8 +1,10 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
+import { AuthContext } from "../../Pages/Register/AuthProvider/AuthProvider";
 // import { AuthContext } from "../../LoginPages/AuthProvider/AuthProvider";
 
 const Container = ({ children, className }) => {
@@ -27,6 +29,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   //   const [cart] = useCart();
   const location = useLocation();
+  const { user, logOut } = useContext(AuthContext);
+  console.log("current user", user);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY >= 100);
@@ -38,8 +42,24 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logOut()
-      .then(() => {})
-      .catch((error) => console.log(error));
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "LogOut SuccessFully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: error.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   };
 
   return (
@@ -67,19 +87,19 @@ const Navbar = () => {
             </Link>
           ))}
 
-          <Link
+          {/* <Link
             to="/login"
             className={location.pathname === "/login" ? "text-orange-500" : ""}
           >
             Login
-          </Link>
+          </Link> */}
           {/* <Link to={"/dashboard/cart"}>
             <button className="btn">
               <RiShoppingCartFill />
               <div className="badge badge-secondary">+{cart.length}</div>
             </button>
-          </Link> */}
-          {/* {user ? (
+          </Link>  */}
+          {user ? (
             <>
               <span>{user?.displayName}</span>
               <span onClick={handleLogout} className="cursor-pointer">
@@ -97,7 +117,7 @@ const Navbar = () => {
                 Login
               </Link>
             </>
-          )} */}
+          )}
         </div>
 
         <Menu
@@ -149,7 +169,7 @@ const Navbar = () => {
                   <div className="badge badge-secondary">+0</div>
                 </button>
               </Link> */}
-              {/* {user ? (
+              {user ? (
                 <span
                   onClick={() => {
                     handleLogout();
@@ -171,16 +191,15 @@ const Navbar = () => {
                 >
                   Login
                 </Link>
-              )} */}
-              <Link
+              )}
+              {/* <Link
                 to="/login"
                 className={
                   location.pathname === "/login" ? "text-orange-500" : ""
                 }
               >
                 Login
-              </Link>
-              ''
+              </Link> */}
             </div>
           </DialogPanel>
         </div>

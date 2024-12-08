@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
@@ -7,12 +8,11 @@ import { AuthContext } from "../AuthProvider/AuthProvider";
 const LoginPage = () => {
   const {
     control,
-    register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const { signIn } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ const LoginPage = () => {
           text: "Welcome back!",
           icon: "success",
         });
-        
+
         navigate(from, { replace: true });
       })
       .catch((err) => {
@@ -38,7 +38,7 @@ const LoginPage = () => {
         if (err.code === "auth/invalid-email") {
           errorMessage = "Invalid email address. Please enter a valid email.";
         } else if (err.code === "auth/invalid-credential") {
-          errorMessage = "No user found with this email. Please sign up";
+          errorMessage = "No user found with this email. Please sign up.";
         } else if (err.code === "auth/user-not-found") {
           errorMessage = "No user found with this email. Please sign up.";
         } else if (err.code === "auth/wrong-password") {
@@ -53,12 +53,11 @@ const LoginPage = () => {
         setError(errorMessage);
         Swal.fire({
           position: "top-end",
-          icon: "success",
-          title: error,
+          icon: "error",
+          title: errorMessage,
           showConfirmButton: false,
           timer: 1500,
         });
-        // ..
       });
     console.log(data);
   };
@@ -76,12 +75,10 @@ const LoginPage = () => {
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
-            {/* Email Validation Start  Activer=*/}
+            {/* Email Field */}
             <div className="form-control">
               <label className="label" htmlFor="email">
-                <span className="label-text text-lg font-semibold">
-                  Email :
-                </span>
+                <span className="label-text text-lg font-semibold">Email:</span>
               </label>
               <div>
                 <Controller
@@ -96,38 +93,26 @@ const LoginPage = () => {
                   }}
                   render={({ field, fieldState }) => {
                     const { error } = fieldState;
-
                     return (
                       <div className="relative">
                         <input
                           {...field}
                           id="email"
                           className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                            error
-                              ? "border-red-500"
-                              : field.value
-                              ? "border-green-500"
-                              : "border-gray-300"
+                            error ? "border-red-500" : "border-gray-300"
                           }`}
                           placeholder="Enter Email ID"
                           aria-invalid={!!error}
                           aria-describedby="email-feedback"
                         />
-                        {error ? (
+                        {error && (
                           <p
                             id="email-feedback"
                             className="text-red-500 text-sm mt-1"
                           >
                             {error.message}
                           </p>
-                        ) : field.value ? (
-                          <p
-                            id="email-feedback"
-                            className="text-green-500 text-sm mt-1"
-                          >
-                            Email is valid!
-                          </p>
-                        ) : null}
+                        )}
                       </div>
                     );
                   }}
@@ -135,14 +120,13 @@ const LoginPage = () => {
               </div>
             </div>
 
-            {/* Password Validation Start */}
             <div className="form-control">
               <label className="label" htmlFor="password">
                 <span className="label-text text-lg font-semibold">
-                  Password :
+                  Password:
                 </span>
               </label>
-              <div>
+              <div className="relative">
                 <Controller
                   name="password"
                   control={control}
@@ -156,58 +140,56 @@ const LoginPage = () => {
                   }}
                   render={({ field, fieldState }) => {
                     const { error } = fieldState;
-
                     return (
-                      <div className="relative">
+                      <div>
                         <input
                           {...field}
                           id="password"
-                          type="password"
+                          type={showPassword ? "text" : "password"}
                           className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                            error
-                              ? "border-red-500"
-                              : field.value
-                              ? "border-green-500"
-                              : "border-gray-300"
+                            error ? "border-red-500" : "border-gray-300"
                           }`}
                           placeholder="Enter Password"
                           aria-invalid={!!error}
                           aria-describedby="password-feedback"
                         />
-                        {error ? (
+                        <span
+                          onClick={() => setShowPassword(!showPassword)} // Toggle showPassword state
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                        >
+                          {showPassword ? (
+                            <AiFillEyeInvisible size={20} />
+                          ) : (
+                            <AiFillEye size={20} />
+                          )}
+                        </span>
+                        {error && (
                           <p
                             id="password-feedback"
                             className="text-red-500 text-sm mt-1"
                           >
                             {error.message}
                           </p>
-                        ) : field.value ? (
-                          <p
-                            id="password-feedback"
-                            className="text-green-500 text-sm mt-1"
-                          >
-                            Password is strong!
-                          </p>
-                        ) : null}
+                        )}
                       </div>
                     );
                   }}
                 />
               </div>
             </div>
-            {/* Password Validation End */}
 
+            {/* Submit Button */}
             <div className="form-control mt-6">
               <input
                 className="btn btn-primary text-xl"
                 type="submit"
-                disabled={false}
-                value="Login"
+                disabled={isSubmitting || Object.keys(errors).length > 0} // Disable if submitting or form is invalid
+                value={isSubmitting ? "Logging in..." : "Login"}
               />
             </div>
           </form>
           <p className="text-xm font-medium text-center mb-3">
-            Create a New Account ?{" "}
+            Create a New Account?{" "}
             <Link to={"/register"}>
               <span className="font-bold text-orange-600"> Register Now</span>
             </Link>
