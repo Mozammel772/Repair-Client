@@ -6,6 +6,7 @@ import Home from "../Pages/HomePages/Home/Home";
 import Login from "../Pages/Register/Login/Login";
 import Register from "../Pages/Register/Register/Register";
 import Service from "../Pages/ServicePages/Service/Service";
+import ServiceRequest from "../Pages/ServiceRequestPages/ServiceRequest/ServiceRequest";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-repair-services",
         element: <Service />,
+      },
+      {
+        path: "/service-request",
+        element: <ServiceRequest />,
       },
       {
         path: "/register",

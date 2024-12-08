@@ -2,6 +2,8 @@
   {
     "service": "Electrical Services",
     "totalService": "21",
+    "price": "100",
+    "description": "Electrical Services Is the Good Services",
     "image": "https://i.ibb.co.com/GWWZ9Cx/electronic.webp"
   },
   {

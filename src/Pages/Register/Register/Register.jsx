@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../AuthProvider/AuthProvider";
+
 const Register = () => {
   const {
     control,
@@ -10,8 +13,50 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const { createUser } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Create User successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/");
+      })
+      .catch((err) => {
+        if (err.code === "auth/email-already-in-use") {
+          setError("This email is already in use. Please use a different email.");
+      } else if (err.code === "auth/invalid-email") {
+          setError("Invalid email address. Please enter a valid email.");
+      } else if (err.code === "auth/weak-password") {
+          setError("Weak password. Password must be at least 6 characters.");
+      } else {
+          setError("An unexpected error occurred. Please try again.");
+      }
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title:  error ,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // ..
+      });
+
+    reset({
+      name: "",
+      email: "",
+      password: "",
+    });
+  };
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -204,7 +249,7 @@ const Register = () => {
             {/* Password Validation End */}
             <div className="form-control mt-6">
               <input
-                className="btn btn-primary"
+                className="btn btn-primary text-xl"
                 type="submit"
                 value="Register"
               />

@@ -17,6 +17,7 @@ const navigationLinks = [
   { title: "Home", link: "/" },
   { title: "About Us", link: "/about-us-more-information" },
   { title: "Service", link: "/all-repair-services" },
+  { title: "Service Request", link: "/service-request" },
   { title: "Secret", link: "/secret" },
 ];
 

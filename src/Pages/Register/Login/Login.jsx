@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const LoginPage = () => {
   const {
@@ -10,8 +12,54 @@ const LoginPage = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const { signIn } = useContext(AuthContext);
+  const [error, setError] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
+    signIn(data.email, data.password)
+      .then((data) => {
+        const user = data.user;
+        console.log(user);
+        Swal.fire({
+          title: "Login Successful!",
+          text: "Welcome back!",
+          icon: "success",
+        });
+        
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        console.log("Failed to", err.code);
+        let errorMessage = "An unexpected error occurred. Please try again.";
+        if (err.code === "auth/invalid-email") {
+          errorMessage = "Invalid email address. Please enter a valid email.";
+        } else if (err.code === "auth/invalid-credential") {
+          errorMessage = "No user found with this email. Please sign up";
+        } else if (err.code === "auth/user-not-found") {
+          errorMessage = "No user found with this email. Please sign up.";
+        } else if (err.code === "auth/wrong-password") {
+          errorMessage = "Incorrect password. Please try again.";
+        } else if (err.code === "auth/network-request-failed") {
+          errorMessage =
+            "Network error. Please check your internet connection.";
+        } else if (err.code === "auth/too-many-requests") {
+          errorMessage = "Too many attempts. Try again later.";
+        }
+
+        setError(errorMessage);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: error,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // ..
+      });
     console.log(data);
   };
 
