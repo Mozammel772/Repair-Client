@@ -26,13 +26,6 @@ const ServicePost = () => {
     staleTime: 0, // Always fe
   });
 
-
-  // Function to format local date and time
-  const formatDateTime = (timestamp) => {
-    const date = new Date(timestamp);
-    return date.toLocaleString(); // Formats date and time based on user's locale
-  };
-
   return (
     <div>
       {/* Cover Section */}
@@ -97,9 +90,7 @@ const ServicePost = () => {
             <div className="card-body">
               <h2 className="card-title">{post.ServiceType}!</h2>
               <p>{post.Description}</p>
-              <p className="text-sm text-gray-500 font-medium">
-                Posted on: {formatDateTime(post.createdAt || new Date())}
-              </p>
+              <p>createdAt : {post.createdAt}</p>
               <div className="card-actions justify-end">
                 <button className="btn btn-primary">Buy Now</button>
               </div>

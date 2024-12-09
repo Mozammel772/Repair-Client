@@ -26,6 +26,7 @@ const ServiceRequest = () => {
       Email: data.email,
       ServiceType: data.serviceType,
       Description: data.message,
+      formatDateTime: data.formatDateTime,
     };
     axiosPublic.post("/servicepost", postInfo).then((res) => {
       console.log("Success", res.data);
@@ -41,6 +42,7 @@ const ServiceRequest = () => {
       }
     });
   };
+
   return (
     <div>
       <div className="mt-20">
