@@ -6,6 +6,7 @@ import Home from "../Pages/HomePages/Home/Home";
 import Login from "../Pages/Register/Login/Login";
 import Register from "../Pages/Register/Register/Register";
 import Service from "../Pages/ServicePages/Service/Service";
+import ServicePost from "../Pages/ServicePostPage/ServicePost/ServicePost";
 import ServiceRequest from "../Pages/ServiceRequestPages/ServiceRequest/ServiceRequest";
 import PrivateRouter from "./PrivateRouter";
 export const router = createBrowserRouter([
@@ -30,6 +31,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRouter>
             <ServiceRequest />
+          </PrivateRouter>
+        ),
+      },
+      {
+        path: "/all-repair-service-post",
+        element: (
+          <PrivateRouter>
+            <ServicePost />
           </PrivateRouter>
         ),
       },

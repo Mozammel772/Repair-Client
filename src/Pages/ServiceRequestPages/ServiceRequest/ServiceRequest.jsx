@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import image from "../../../assets/about/ac-repair.jpg";
 import CoverSection from "../../../Components/CoverSection/CoverSection";
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
-import {
-  AuthContext,
-} from "../../Register/AuthProvider/AuthProvider";
+import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
+import { AuthContext } from "../../Register/AuthProvider/AuthProvider";
 const ServiceRequest = () => {
   const {
     control,
@@ -15,9 +15,31 @@ const ServiceRequest = () => {
     formState: { errors },
   } = useForm();
   const { user } = useContext(AuthContext);
-  console.log("register", user);
+  const axiosPublic = useAxioPublic();
+
   const onSubmit = (data) => {
     console.log(data);
+    const postInfo = {
+      Name: data.name,
+      Phone: data.phone,
+      Address: data.address,
+      Email: data.email,
+      ServiceType: data.serviceType,
+      Description: data.message,
+    };
+    axiosPublic.post("/servicepost", postInfo).then((res) => {
+      console.log("Success", res.data);
+
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Post successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
   return (
     <div>
@@ -49,99 +71,183 @@ const ServiceRequest = () => {
           <div className="card bg-base-100 w-full max-w-xl shrink-0 shadow-2xl">
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               {/* Name Validation Start */}
-              <div className="flex justify-between  items-center max-w-xl ">
-                <div className="form-control w-full mr-2">
-                  <label className="label" htmlFor="fname">
-                    <span className="label-text text-lg font-semibold">
-                      First Name :
-                    </span>
-                  </label>
-                  <div>
-                    <Controller
-                      name="fname"
-                      control={control}
-                      rules={{
-                        required: "First name is required",
-                        pattern: {
-                          value: {},
-                          message: "Name can only contain letters and spaces",
-                        },
-                      }}
-                      render={({ field, fieldState }) => {
-                        return (
-                          <div className="relative">
-                            <input
-                              id="fname"
-                              className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 `}
-                              placeholder="Enter Your Name"
-                              aria-describedby="name-feedback"
-                            />
-                          </div>
-                        );
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="form-control w-full ">
-                  <label className="label" htmlFor="lname">
-                    <span className="label-text text-lg font-semibold">
-                      Last Name :
-                    </span>
-                  </label>
-                  <div>
-                    <Controller
-                      name="lname"
-                      control={control}
-                      rules={{
-                        required: "Last Name is required",
-                        pattern: {
-                          value: /^[a-zA-Z\s]+$/,
-                          message: "Name can only contain letters and spaces",
-                        },
-                      }}
-                      render={({ field, fieldState }) => {
-                        const { error } = fieldState;
+              <div className="form-control">
+                <label className="label" htmlFor="name">
+                  <span className="label-text text-lg font-semibold">
+                    Name :
+                  </span>
+                </label>
+                <div>
+                  <Controller
+                    name="name"
+                    control={control}
+                    rules={{
+                      required: "Name is required",
+                      pattern: {
+                        value: /^[a-zA-Z\s]+$/,
+                        message: "Name can only contain letters and spaces",
+                      },
+                    }}
+                    render={({ field, fieldState }) => {
+                      const { error } = fieldState;
 
-                        return (
-                          <div className="relative">
-                            <input
-                              {...field}
-                              id="lname"
-                              className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                                error
-                                  ? "border-red-500"
-                                  : field.value
-                                  ? "border-green-500"
-                                  : "border-gray-300"
-                              }`}
-                              placeholder="Enter Your Name"
-                              aria-invalid={!!error}
-                              aria-describedby="name-feedback"
-                            />
-                            {error ? (
-                              <p
-                                id="name-feedback"
-                                className="text-red-500 text-sm mt-1"
-                              >
-                                {error.message}
-                              </p>
-                            ) : field.value ? (
-                              <p
-                                id="name-feedback"
-                                className="text-green-500 text-sm mt-1"
-                              >
-                                Name is valid!
-                              </p>
-                            ) : null}
-                          </div>
-                        );
-                      }}
-                    />
-                  </div>
+                      return (
+                        <div className="relative">
+                          <input
+                            {...field}
+                            id="name"
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                              error
+                                ? "border-red-500"
+                                : field.value
+                                ? "border-green-500"
+                                : "border-gray-300"
+                            }`}
+                            placeholder="Enter Your Name"
+                            aria-invalid={!!error}
+                            aria-describedby="name-feedback"
+                          />
+                          {error ? (
+                            <p
+                              id="name-feedback"
+                              className="text-red-500 text-sm mt-1"
+                            >
+                              {error.message}
+                            </p>
+                          ) : field.value ? (
+                            <p
+                              id="name-feedback"
+                              className="text-green-500 text-sm mt-1"
+                            >
+                              Name is valid!
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    }}
+                  />
                 </div>
               </div>
               {/* Name Validation End */}
+              <div className="form-control">
+                <label className="label" htmlFor="name">
+                  <span className="label-text text-lg font-semibold">
+                    Phone :
+                  </span>
+                </label>
+                <div>
+                  <Controller
+                    name="phone"
+                    control={control}
+                    rules={{
+                      required: "Phone Number is required",
+                      pattern: {
+                        value: /^[0-9]{11}$/, // A basic phone number pattern (10 digits)
+                        message:
+                          "Invalid phone number. Please enter a 11-digit number.",
+                      },
+                    }}
+                    render={({ field, fieldState }) => {
+                      const { error } = fieldState;
 
+                      return (
+                        <div className="relative">
+                          <input
+                            {...field}
+                            id="phone"
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                              error
+                                ? "border-red-500"
+                                : field.value
+                                ? "border-green-500"
+                                : "border-gray-300"
+                            }`}
+                            placeholder="+880"
+                            aria-invalid={!!error}
+                            aria-describedby="name-feedback"
+                          />
+                          {error ? (
+                            <p
+                              id="name-feedback"
+                              className="text-red-500 text-sm mt-1"
+                            >
+                              {error.message}
+                            </p>
+                          ) : field.value ? (
+                            <p
+                              id="name-feedback"
+                              className="text-green-500 text-sm mt-1"
+                            >
+                              Phone Number is valid!
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="form-control">
+                <label className="label" htmlFor="name">
+                  <span className="label-text text-lg font-semibold">
+                    Address :
+                  </span>
+                </label>
+                <div>
+                  <Controller
+                    name="address"
+                    control={control}
+                    rules={{
+                      required: "Address is required",
+                      minLength: {
+                        value: 10,
+                        message: "Address must be at least 10 characters long",
+                      },
+                      maxLength: {
+                        value: 100,
+                        message: "Address cannot exceed 100 characters",
+                      },
+                    }}
+                    render={({ field, fieldState }) => {
+                      const { error } = fieldState;
+
+                      return (
+                        <div className="relative">
+                          <input
+                            {...field}
+                            id="address"
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                              error
+                                ? "border-red-500"
+                                : field.value
+                                ? "border-green-500"
+                                : "border-gray-300"
+                            }`}
+                            placeholder="Enter Your Name"
+                            aria-invalid={!!error}
+                            aria-describedby="name-feedback"
+                          />
+                          {error ? (
+                            <p
+                              id="address-feedback"
+                              className="text-red-500 text-sm mt-1"
+                            >
+                              {error.message}
+                            </p>
+                          ) : field.value ? (
+                            <p
+                              id="name-feedback"
+                              className="text-green-500 text-sm mt-1"
+                            >
+                              Address is valid!
+                            </p>
+                          ) : null}
+                        </div>
+                      );
+                    }}
+                  />
+                </div>
+              </div>
               <div className="form-control">
                 <label className="label" htmlFor="email">
                   <span className="label-text text-lg font-semibold">
@@ -208,9 +314,8 @@ const ServiceRequest = () => {
                   </span>
                 </label>
                 <Controller
-                  name="category"
+                  name="serviceType"
                   control={control}
-                  defaultValue=""
                   rules={{
                     required: "Service category is required",
                   }}
@@ -251,13 +356,17 @@ const ServiceRequest = () => {
                   </span>
                 </label>
                 <Controller
-                  name="text"
+                  name="message"
                   control={control}
                   rules={{
                     required: "Message is required",
-                    pattern: {
-                      value: /^[a-zA-Z\s]+$/, // শুধু অক্ষর ও স্পেসের জন্য প্যাটার্ন
-                      message: "Message must contain only letters",
+                    minLength: {
+                      value: 10,
+                      message: "Message must be at least 10 characters",
+                    },
+                    maxLength: {
+                      value: 1000,
+                      message: "Message cannot exceed 1000 characters",
                     },
                   }}
                   render={({ field, fieldState }) => {
@@ -301,9 +410,9 @@ const ServiceRequest = () => {
               </div>
               <div className="form-control mt-6">
                 <input
-                  className="btn btn-primary"
+                  className="btn btn-primary text-xl"
                   type="submit"
-                  value="Register"
+                  value="Service Requst"
                 />
               </div>
             </form>

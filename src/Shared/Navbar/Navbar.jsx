@@ -20,7 +20,7 @@ const navigationLinks = [
   { title: "About Us", link: "/about-us-more-information" },
   { title: "Service", link: "/all-repair-services" },
   { title: "Service Request", link: "/service-request" },
-  { title: "Secret", link: "/secret" },
+  { title: "Service Post", link: "/all-repair-service-post" },
 ];
 
 const Navbar = () => {
@@ -30,7 +30,7 @@ const Navbar = () => {
   //   const [cart] = useCart();
   const location = useLocation();
   const { user, logOut } = useContext(AuthContext);
-  console.log("current user", user);
+  // console.log("current user", user);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY >= 100);
