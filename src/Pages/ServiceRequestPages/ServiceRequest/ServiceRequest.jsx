@@ -17,6 +17,14 @@ const ServiceRequest = () => {
   const { user } = useContext(AuthContext);
   const axiosPublic = useAxioPublic();
 
+  // Sample categories (this can be fetched from an API)
+  const serviceCategories = [
+    { value: "Ac-Repair", label: "Ac-Repair" },
+    { value: "lost", label: "Lost" },
+    { value: "bad", label: "Breaking Bad" },
+    { value: "dead", label: "Walking Dead" },
+  ];
+
   const onSubmit = (data) => {
     console.log(data);
     const postInfo = {
@@ -26,8 +34,8 @@ const ServiceRequest = () => {
       Email: data.email,
       ServiceType: data.serviceType,
       Description: data.message,
-      formatDateTime: data.formatDateTime,
     };
+    console.log("Created", postInfo);
     axiosPublic.post("/servicepost", postInfo).then((res) => {
       console.log("Success", res.data);
 
@@ -63,7 +71,7 @@ const ServiceRequest = () => {
       <div className="hero bg-base-200 min-h-screen">
         <div className="flex flex-col justify-center items-center  ">
           <div className="text-center lg:text-left">
-            <h1 className="text-5xl font-bold text-center">Register Now!</h1>
+            <h1 className="text-5xl font-bold text-center">Service Request</h1>
             <p className="py-6">
               Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
@@ -335,10 +343,11 @@ const ServiceRequest = () => {
                           <option value="" disabled>
                             Choose Your Service Category?
                           </option>
-                          <option value="game">Game of Thrones</option>
-                          <option value="lost">Lost</option>
-                          <option value="bad">Breaking Bad</option>
-                          <option value="dead">Walking Dead</option>
+                          {serviceCategories.map((category) => (
+                            <option key={category.value} value={category.value}>
+                              {category.label}
+                            </option>
+                          ))}
                         </select>
                         {error && (
                           <p className="text-red-500 text-sm mt-1">
@@ -350,9 +359,8 @@ const ServiceRequest = () => {
                   }}
                 />
               </div>
-
               <div className="form-control">
-                <label className="label" htmlFor="text">
+                <label className="label" htmlFor="message">
                   <span className="label-text text-lg font-semibold">
                     Message :
                   </span>
@@ -373,12 +381,11 @@ const ServiceRequest = () => {
                   }}
                   render={({ field, fieldState }) => {
                     const { error } = fieldState;
-
                     return (
                       <div className="relative">
-                        <input
+                        <textarea
                           {...field}
-                          id="text"
+                          id="message"
                           className={`w-full h-20 border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                             error
                               ? "border-red-500"
@@ -388,18 +395,18 @@ const ServiceRequest = () => {
                           }`}
                           placeholder="Enter Repair Requirements"
                           aria-invalid={!!error}
-                          aria-describedby="text-feedback"
+                          aria-describedby="message-feedback"
                         />
                         {error ? (
                           <p
-                            id="text-feedback"
+                            id="message-feedback"
                             className="text-red-500 text-sm mt-1"
                           >
                             {error.message}
                           </p>
                         ) : field.value ? (
                           <p
-                            id="text-feedback"
+                            id="message-feedback"
                             className="text-green-500 text-sm mt-1"
                           >
                             Message is valid!
@@ -410,6 +417,7 @@ const ServiceRequest = () => {
                   }}
                 />
               </div>
+
               <div className="form-control mt-6">
                 <input
                   className="btn btn-primary text-xl"
