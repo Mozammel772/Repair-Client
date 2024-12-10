@@ -16,7 +16,6 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-
   const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
@@ -38,7 +37,7 @@ const LoginPage = () => {
         if (err.code === "auth/invalid-email") {
           errorMessage = "Invalid email address. Please enter a valid email.";
         } else if (err.code === "auth/invalid-credential") {
-          errorMessage = "No user found with this email. Please sign up.";
+          errorMessage = "Incorrect password. Please try again.";
         } else if (err.code === "auth/user-not-found") {
           errorMessage = "No user found with this email. Please sign up.";
         } else if (err.code === "auth/wrong-password") {
@@ -59,7 +58,6 @@ const LoginPage = () => {
           timer: 1500,
         });
       });
-    console.log(data);
   };
 
   return (
@@ -175,6 +173,11 @@ const LoginPage = () => {
                     );
                   }}
                 />
+              </div>
+              <div>
+                <Link to={"/forgot-password"} className="text-sm text-blue-500">
+                  Forgot Password?
+                </Link>
               </div>
             </div>
 
