@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAuth from "../../../hooks/useAuth/useAuth";
 import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
-import { AuthContext } from "../AuthProvider/AuthProvider";
+import GoogleLogin from "../GoogleLogin/GoogleLogin";
 const Register = () => {
   const {
     control,
@@ -14,7 +15,7 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { createUser } = useAuth();
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -272,6 +273,11 @@ const Register = () => {
               <span className="text-orange-600 font-bold">Login Now</span>
             </Link>
           </p>
+          <div className="divider"></div>
+          {/* Social Login */}
+          <div className="text-center my-3">
+            <GoogleLogin />
+          </div>
         </div>
       </div>
     </div>

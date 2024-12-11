@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { AuthContext } from "../AuthProvider/AuthProvider";
+import useAuth from "../../../hooks/useAuth/useAuth";
+import GoogleLogin from "../GoogleLogin/GoogleLogin";
 
 const LoginPage = () => {
   const {
@@ -11,7 +12,7 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
-  const { signIn } = useContext(AuthContext);
+  const { signIn } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const location = useLocation();
@@ -197,6 +198,11 @@ const LoginPage = () => {
               <span className="font-bold text-orange-600"> Register Now</span>
             </Link>
           </p>
+          {/* Social Login */}
+          <div className="divider"></div>
+          <div className="text-center my-3">
+            <GoogleLogin />
+          </div>
         </div>
       </div>
     </div>
