@@ -3,11 +3,12 @@ import React from "react";
 import image from "../../../assets/about/ac-repair.jpg";
 import CoverSection from "../../../Components/CoverSection/CoverSection";
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
+import useAuth from "../../../hooks/useAuth/useAuth";
 import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
 
 const ServicePost = () => {
   const axiosPublic = useAxioPublic();
-
+  const { user } = useAuth();
   // Fetch service data with React Query
   const {
     data: services = [],
@@ -16,9 +17,9 @@ const ServicePost = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["servicePost"],
+    queryKey: ["services",user?.email],
     queryFn: async () => {
-      const response = await axiosPublic.get("/servicepost");
+      const response = await axiosPublic.get(`/servicepost?email=${user?.email}`);
       return response.data;
     },
 
@@ -90,6 +91,7 @@ const ServicePost = () => {
             <div className="card-body">
               <h2 className="card-title">{post.ServiceType}!</h2>
               <p>{post.Description}</p>
+              <p>{post.email}</p>
               <p>createdAt : {post.createdAt}</p>
               <div className="card-actions justify-end">
                 <button className="btn btn-primary">Buy Now</button>

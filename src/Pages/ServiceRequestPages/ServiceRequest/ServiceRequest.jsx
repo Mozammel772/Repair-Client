@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import image from "../../../assets/about/ac-repair.jpg";
 import CoverSection from "../../../Components/CoverSection/CoverSection";
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
+import useAuth from "../../../hooks/useAuth/useAuth";
 import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
-import { AuthContext } from "../../Register/AuthProvider/AuthProvider";
 const ServiceRequest = () => {
   const {
     control,
@@ -14,7 +14,7 @@ const ServiceRequest = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const axiosPublic = useAxioPublic();
 
   // Sample categories (this can be fetched from an API)
@@ -31,7 +31,7 @@ const ServiceRequest = () => {
       Name: data.name,
       Phone: data.phone,
       Address: data.address,
-      Email: data.email,
+      email: user?.email,
       ServiceType: data.serviceType,
       Description: data.message,
     };
@@ -268,14 +268,6 @@ const ServiceRequest = () => {
                   <Controller
                     name="email"
                     control={control}
-                    rules={{
-                      required: "Email is required",
-                      pattern: {
-                        value:
-                          /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                        message: "Invalid email address",
-                      },
-                    }}
                     render={({ field, fieldState }) => {
                       const { error } = fieldState;
 
@@ -284,6 +276,8 @@ const ServiceRequest = () => {
                           <input
                             {...field}
                             id="email"
+                            defaultValue={user.email}
+                            disabled
                             className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                               error
                                 ? "border-red-500"
@@ -434,4 +428,3 @@ const ServiceRequest = () => {
 };
 
 export default ServiceRequest;
-

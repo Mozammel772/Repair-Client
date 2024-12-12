@@ -58,6 +58,23 @@ const Dashboardnavbar = () => {
                 >
                   Home
                 </Link>
+                <Link
+                  to="/dashboard/users-services-post"
+                  className={`block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-100 transition-colors duration-200 ${
+                    location.pathname === "/dashboard/users-services-post" ? "bg-blue-100" : ""
+                  }`}
+                >
+                  My-Post
+                </Link>
+                <Link
+                  to="/dashboard/services"
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-100 transition-colors duration-200 ${
+                    location.pathname === "/dashboard/services" ? "bg-blue-100" : ""
+                  }`}
+                >
+                  Services
+                </Link>
               </>
             )}
           </nav>
@@ -118,10 +135,10 @@ const Dashboardnavbar = () => {
               About
             </Link>
             <Link
-              to="/services"
+              to="/dashboard/services"
               onClick={() => setIsOpen(false)}
               className={`block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-100 transition-colors duration-200 ${
-                location.pathname === "/services" ? "bg-blue-100" : ""
+                location.pathname === "/dashboard/services" ? "bg-blue-100" : ""
               }`}
             >
               Services
@@ -145,6 +162,3 @@ const Dashboardnavbar = () => {
 };
 
 export default Dashboardnavbar;
-
-
-
