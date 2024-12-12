@@ -72,7 +72,7 @@ const ForgotPassword = () => {
             <div className="form-control mt-4">
               <button
                 onClick={handleForgotPassword}
-                className={`btn btn-primary ${loading ? "loading" : ""}`}
+                className={`btn btn-secondary ${loading ? "loading" : ""}`}
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send Reset Link"}

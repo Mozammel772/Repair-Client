@@ -10,7 +10,7 @@ const LoginPage = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isLoading },
   } = useForm();
   const { signIn } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
@@ -63,16 +63,19 @@ const LoginPage = () => {
 
   return (
     <div className="hero bg-base-200 min-h-screen">
-      <div className="flex flex-col justify-center items-center  ">
-        <div className="text-center lg:text-left">
+      <div className="flex flex-col justify-center items-center w-full max-w-md ">
+        {/* <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold text-center">Login now!</h1>
           <p className="py-6">
             Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
-        </div>
+        </div> */}
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <h1 className="text-4xl font-bold text-center mt-5 text-orange-600">
+            Login now!
+          </h1>
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             {/* Email Field */}
             <div className="form-control">
@@ -157,9 +160,9 @@ const LoginPage = () => {
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
                         >
                           {showPassword ? (
-                            <AiFillEyeInvisible size={20} />
+                            <AiFillEyeInvisible size={20} color="orange" />
                           ) : (
-                            <AiFillEye size={20} />
+                            <AiFillEye size={20} color="orange" />
                           )}
                         </span>
                         {error && (
@@ -185,7 +188,7 @@ const LoginPage = () => {
             {/* Submit Button */}
             <div className="form-control mt-6">
               <input
-                className="btn btn-primary text-xl"
+                className="btn btn-secondary text-xl"
                 type="submit"
                 disabled={isSubmitting || Object.keys(errors).length > 0} // Disable if submitting or form is invalid
                 value={isSubmitting ? "Logging in..." : "Login"}
@@ -195,14 +198,11 @@ const LoginPage = () => {
           <p className="text-xm font-medium text-center mb-3">
             Create a New Account?{" "}
             <Link to={"/register"}>
-              <span className="font-bold text-orange-600"> Register Now</span>
+              <span className="font-bold text-orange-600"> Register</span>
             </Link>
           </p>
           {/* Social Login */}
-          <div className="divider"></div>
-          <div className="text-center my-3">
-            <GoogleLogin />
-          </div>
+          <GoogleLogin />
         </div>
       </div>
     </div>

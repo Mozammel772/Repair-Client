@@ -28,9 +28,9 @@ const GoogleLogin = () => {
   };
 
   return (
-    <div className="my-6 text-center">
+    <div className="my-6 text-center ">
       <div className="divider"></div>
-      <button onClick={handleGoogleSignIn} className="btn btn-secondary">
+      <button onClick={handleGoogleSignIn} className="btn btn-secondary w-5/6 text-xl">
         <FaGoogle></FaGoogle>Google
       </button>
     </div>
