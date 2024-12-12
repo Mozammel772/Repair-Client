@@ -34,7 +34,7 @@ import React, { useContext } from "react";
 import useAxioPublic from "../../../hooks/useAxiosPublic/useAxiosPublic";
 import { AuthContext } from "../../Register/AuthProvider/AuthProvider";
 
-const Dashboard = () => {
+const UserDashboard = () => {
   const { user } = useContext(AuthContext);  // Get user context
   const axiosPublic = useAxioPublic();  // Custom hook for axios
 
@@ -96,5 +96,5 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default UserDashboard;
 

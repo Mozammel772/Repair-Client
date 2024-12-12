@@ -21,7 +21,7 @@ const navigationLinks = [
   { title: "Service", link: "/all-repair-services" },
   { title: "Service Request", link: "/service-request" },
   { title: "Service Post", link: "/all-repair-service-post" },
-  { title: "Dashboard", link: "/user-dashboard" },
+  { title: "Dashboard", link: "/dashboard/home" },
 ];
 
 const Navbar = () => {
