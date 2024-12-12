@@ -66,7 +66,10 @@ const AllUsers = () => {
 
   return (
     <div className="mt-20">
-        <SectionTittle heading={"All User "} subHeading={"All User Loging From Admin"}></SectionTittle>
+      <SectionTittle
+        heading={"All User "}
+        subHeading={"All User Loging From Admin"}
+      ></SectionTittle>
       <div className="flex justify-evenly my-4 font-bold">
         <h2 className="text-3xl">All Users</h2>
         <h2 className="text-3xl">Total Users: {users.length}</h2>

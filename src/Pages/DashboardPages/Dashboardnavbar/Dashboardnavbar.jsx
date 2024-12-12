@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useAdmin from "../../../hooks/useAdmin/useAdmin";
 import useAuth from "../../../hooks/useAuth/useAuth";
 
 const Dashboardnavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const location = useLocation();
-  console.log("user: " , user);
+
+  const [isAdmin, isAdminLoading] = useAdmin();
 
   return (
     <header className="bg-white shadow-lg fixed top-0 left-0 w-full z-50">
@@ -15,52 +17,50 @@ const Dashboardnavbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="text-2xl font-extrabold text-blue-600">
-             Name
+              Name
             </Link>
           </div>
 
           {/* Desktop Menu */}
           <nav className="hidden md:flex space-x-6">
-            <Link
-              to="/dashboard/home"
-              className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
-                location.pathname === "/dashboard/home"
-                  ? "text-orange-500 underline"
-                  : ""
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
-                location.pathname === "/about" ? "text-blue-600 underline" : ""
-              }`}
-            >
-              About
-            </Link>
-            <Link
-              to="/services"
-              className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
-                location.pathname === "/services"
-                  ? "text-blue-600 underline"
-                  : ""
-              }`}
-            >
-              Services
-            </Link>
-            <Link
-              to="/dashboard/all-users"
-              className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
-                location.pathname === "/dashboard/all-users"
-                  ? "text-blue-600 underline"
-                  : ""
-              }`}
-            >
-              All Users
-            </Link>
+            {isAdmin ? (
+              <>
+                <Link
+                  to="/dashboard/home"
+                  className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
+                    location.pathname === "/dashboard/home"
+                      ? "text-orange-500 underline"
+                      : ""
+                  }`}
+                >
+                  Home
+                </Link>
+                <Link
+                  to="/dashboard/all-users"
+                  className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
+                    location.pathname === "/dashboard/all-users"
+                      ? "text-blue-600 underline"
+                      : ""
+                  }`}
+                >
+                  All Users
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/dashboard/home"
+                  className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
+                    location.pathname === "/dashboard/home"
+                      ? "text-orange-500 underline"
+                      : ""
+                  }`}
+                >
+                  Home
+                </Link>
+              </>
+            )}
           </nav>
-
           {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
@@ -145,3 +145,6 @@ const Dashboardnavbar = () => {
 };
 
 export default Dashboardnavbar;
+
+
+
