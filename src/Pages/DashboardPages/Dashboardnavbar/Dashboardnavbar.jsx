@@ -266,12 +266,12 @@ const Dashboardnavbar = () => {
       {isOpen && (
         <nav className="md:hidden bg-gray-100 border-t">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {isAdmin ? (
-              <AdminNav location={location} />
+          {isAdmin ? (
+              <AdminNavbar location={location} />
             ) : isModerator ? (
-              <ModeratorNav location={location} />
+              <ModeratorNavbar location={location} />
             ) : (
-              <UserNav location={location} />
+              <UserNavbar location={location} />
             )}
           </div>
         </nav>

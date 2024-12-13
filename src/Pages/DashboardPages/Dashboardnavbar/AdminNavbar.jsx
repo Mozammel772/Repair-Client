@@ -6,7 +6,7 @@ const AdminNavbar = ({ location }) => {
     <>
       <Link
         to="/dashboard/home"
-        className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
+        className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200  ${
           location.pathname === "/dashboard/home" ? "text-orange-500 underline" : ""
         }`}
       >
@@ -15,7 +15,7 @@ const AdminNavbar = ({ location }) => {
       <Link
         to="/dashboard/all-users"
         className={`text-gray-800 hover:text-blue-600 px-3 py-2 rounded-md text-lg font-medium transition-colors duration-200 ${
-          location.pathname === "/dashboard/all-users" ? "text-blue-600 underline" : ""
+          location.pathname === "/dashboard/all-users" ? "text-orange-500 underline" : ""
         }`}
       >
         All Users

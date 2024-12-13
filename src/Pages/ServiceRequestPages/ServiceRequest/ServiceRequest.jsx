@@ -17,14 +17,6 @@ const ServiceRequest = () => {
   const { user } = useAuth();
   const axiosPublic = useAxioPublic();
 
-  // Sample categories (this can be fetched from an API)
-  const serviceCategories = [
-    { value: "Ac-Repair", label: "Ac-Repair" },
-    { value: "lost", label: "Lost" },
-    { value: "bad", label: "Breaking Bad" },
-    { value: "dead", label: "Walking Dead" },
-  ];
-
   const onSubmit = (data) => {
     console.log(data);
     const postInfo = {
@@ -35,7 +27,6 @@ const ServiceRequest = () => {
       ServiceType: data.serviceType,
       Description: data.message,
     };
-    console.log("Created", postInfo);
     axiosPublic.post("/servicepost", postInfo).then((res) => {
       console.log("Success", res.data);
 
@@ -330,18 +321,21 @@ const ServiceRequest = () => {
                       <div className="relative">
                         <select
                           {...field}
-                          className={`select select-primary w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                          className={`select select-primary text-md font-semibold w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
                             error ? "border-red-500" : "border-gray-300"
                           }`}
                         >
-                          <option value="" disabled>
-                            Choose Your Service Category?
+                          <option disabled selected>
+                            Selected Your Service Items
                           </option>
-                          {serviceCategories.map((category) => (
-                            <option key={category.value} value={category.value}>
-                              {category.label}
-                            </option>
-                          ))}
+                          <option value={"ac-repair"}>Ac-Repair</option>
+                          <option value={"electrical-services"}>
+                            Electrical-Services
+                          </option>
+                          <option value={"appliance-repair"}>
+                            Appliance-Repair
+                          </option>
+                          <option value={"home-cleaning"}>Home-Cleaning</option>
                         </select>
                         {error && (
                           <p className="text-red-500 text-sm mt-1">

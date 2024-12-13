@@ -23,32 +23,19 @@ const AllUsers = () => {
     },
   });
 
-  // const handleMakeAdmin = (user) => {
-  //   axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
-  //     console.log(res.data);
-  //     if (res.data.modifiedCount > 0) {
-  //       refetch();
-  //       Swal.fire({
-  //         position: "top-end",
-  //         icon: "success",
-  //         title: `${user.name} is an Admin Now!`,
-  //         showConfirmButton: false,
-  //         timer: 1500,
-  //       });
-  //     }
-  //   });
-  // };
-
   const handleChangeRole = (user, role) => {
     const roleText = role === "admin" ? "Admin" : "Moderator";
     const rolePath = `/users/${role}/${user._id}`;
 
     Swal.fire({
-      title: `Do you want to make this user a ${roleText}?`,
-      showDenyButton: true,
+      title: `Are you sure you want to make this user a ${roleText}?`,
+      text: "You won't be able to revert this!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: `Yes, Make ${roleText}`,
-      denyButtonText: `Don't Make ${roleText}`,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Yes, make ${roleText}`,
+      cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
         // Make the API call only after confirmation
@@ -57,19 +44,34 @@ const AllUsers = () => {
           .then((res) => {
             console.log(res.data);
             if (res.data.modifiedCount > 0) {
-              Swal.fire(`User is now a ${roleText}!`, "", "success");
+              Swal.fire({
+                title: `${roleText} Added!`,
+                text: `User is now a ${roleText}.`,
+                icon: "success",
+                confirmButtonColor: "#3085d6",
+              });
             } else {
-              Swal.fire("Failed to update role", "", "error");
+              Swal.fire({
+                title: "Failed to update role",
+                text: "There was an issue updating the role.",
+                icon: "error",
+                confirmButtonColor: "#d33",
+              });
             }
           })
           .catch((error) => {
             console.error(`Error making user ${roleText}:`, error);
-            Swal.fire("An error occurred", "", "error");
+            Swal.fire({
+              title: "An error occurred",
+              text: "Unable to update the user's role at the moment.",
+              icon: "error",
+              confirmButtonColor: "#d33",
+            });
           });
       } else if (result.isDenied) {
         Swal.fire("Changes are not saved", "", "info");
       }
-      refetch();
+      refetch(); // Ensure data is refreshed
     });
   };
 
