@@ -23,19 +23,53 @@ const AllUsers = () => {
     },
   });
 
-  const handleMakeAdmin = (user) => {
-    axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
-      console.log(res.data);
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${user.name} is an Admin Now!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+  // const handleMakeAdmin = (user) => {
+  //   axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
+  //     console.log(res.data);
+  //     if (res.data.modifiedCount > 0) {
+  //       refetch();
+  //       Swal.fire({
+  //         position: "top-end",
+  //         icon: "success",
+  //         title: `${user.name} is an Admin Now!`,
+  //         showConfirmButton: false,
+  //         timer: 1500,
+  //       });
+  //     }
+  //   });
+  // };
+
+  const handleChangeRole = (user, role) => {
+    const roleText = role === "admin" ? "Admin" : "Moderator";
+    const rolePath = `/users/${role}/${user._id}`;
+
+    Swal.fire({
+      title: `Do you want to make this user a ${roleText}?`,
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `Yes, Make ${roleText}`,
+      denyButtonText: `Don't Make ${roleText}`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Make the API call only after confirmation
+        axiosSecure
+          .patch(rolePath)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.modifiedCount > 0) {
+              Swal.fire(`User is now a ${roleText}!`, "", "success");
+            } else {
+              Swal.fire("Failed to update role", "", "error");
+            }
+          })
+          .catch((error) => {
+            console.error(`Error making user ${roleText}:`, error);
+            Swal.fire("An error occurred", "", "error");
+          });
+      } else if (result.isDenied) {
+        Swal.fire("Changes are not saved", "", "info");
       }
+      refetch();
     });
   };
 
@@ -92,7 +126,7 @@ const AllUsers = () => {
                 <th>{index + 1}</th>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>
+                {/* <td>
                   {user.role === "admin" ? (
                     "Admin"
                   ) : (
@@ -106,7 +140,30 @@ const AllUsers = () => {
                       ></FaUsers>
                     </button>
                   )}
+                </td> */}
+                <td>
+                  {user.role === "admin" ? (
+                    "Admin"
+                  ) : user.role === "moderator" ? (
+                    "Moderator"
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleChangeRole(user, "admin")}
+                        className="btn btn-lg bg-orange-500"
+                      >
+                        <FaUsers className="text-white text-2xl" />
+                      </button>
+                      <button
+                        onClick={() => handleChangeRole(user, "moderator")}
+                        className="btn btn-lg bg-blue-500 ml-2"
+                      >
+                        <FaUsers className="text-white text-2xl" />
+                      </button>
+                    </>
+                  )}
                 </td>
+
                 <td>
                   <button
                     onClick={() => handleDeleteUser(user)}

@@ -1,13 +1,13 @@
 import { Navigate, useLocation } from "react-router-dom";
-import useAdmin from "../../hooks/useAdmin/useAdmin";
 import useAuth from "../../hooks/useAuth/useAuth";
+import useModerator from "../../hooks/useModerator/useModerator";
 
-const AdminRouter = ({ children }) => {
+const ModeratorRouter = ({ children }) => {
   const { user, loading } = useAuth();
-  const [isAdmin, isAdminLoading] = useAdmin();
+  const [isModerator, isModeratorLoading] = useModerator();
   const location = useLocation();
 
-  if (loading || isAdminLoading) {
+  if (loading || isModeratorLoading) {
     return (
       <>
         <div className="flex justify-center items-center h-40">
@@ -17,10 +17,10 @@ const AdminRouter = ({ children }) => {
     );
   }
 
-  if (user && isAdmin) {
+  if (user && isModerator) {
     return children;
   }
   return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 
-export default AdminRouter;
+export default ModeratorRouter;
