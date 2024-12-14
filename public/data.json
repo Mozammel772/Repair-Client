@@ -2,8 +2,9 @@
   {
     "service": "Electrical Services",
     "totalService": "21",
-    "price": "100",
-    "description": "Electrical Services Is the Good Services",
+    "price": "1000",
+    "tittle": "Electrical Services Is the Good Services",
+    "description": "Electrical Services Is the typically show a professional electrician, wearing safety gear, actively fixing an electrical issue in a home or building, which could include tasks like replacing a faulty outlet, repairing exposed wiring, inspecting a circuit breaker panel, or troubleshooting a malfunctioning appliance, with tools like wire strippers, screwdrivers, and a voltage tester visible in the scene.",
     "image": "https://i.ibb.co.com/GWWZ9Cx/electronic.webp"
   },
   {

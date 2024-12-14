@@ -193,7 +193,9 @@ const Dashboardnavbar = () => {
                 Name
               </Link>
             </div>
-            <span>Loading...</span> {/* Placeholder for loading */}
+             <div className="flex justify-center items-center h-40">
+     <div className="loader border-t-4 border-blue-500 w-10 h-10 rounded-full animate-spin"></div>
+     </div>
           </div>
         </div>
       </header>

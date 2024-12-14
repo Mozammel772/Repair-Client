@@ -7,10 +7,11 @@ import Dashboardhome from "../Pages/DashboardPages/Dashboardhome/Dashboardhome";
 import UserServicePost from "../Pages/DashboardPages/UserServicePost/UserServicePost";
 import ErrorPages from "../Pages/ErrorPages/ErrorPages";
 import Home from "../Pages/HomePages/Home/Home";
+import ServiceDetails from "../Pages/HomePages/ServicePages/Services/ServiceDetails";
+import Services from "../Pages/HomePages/ServicePages/Services/Services";
 import ForgotPassword from "../Pages/Register/ForgetPassword/ForgetPassword";
 import Login from "../Pages/Register/Login/Login";
 import Register from "../Pages/Register/Register/Register";
-import Service from "../Pages/ServicePages/Service/Service";
 import ServicePost from "../Pages/ServicePostPage/ServicePost/ServicePost";
 import ServiceRequest from "../Pages/ServiceRequestPages/ServiceRequest/ServiceRequest";
 import AdminRouter from "./AdminRouter/AdminRouter";
@@ -30,7 +31,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/all-repair-services",
-        element: <Service />,
+        element: <Services />,
+      },
+      {
+        path: `/all-repair-services/:id`,
+        element: <ServiceDetails />,
       },
       {
         path: "/service-request",
