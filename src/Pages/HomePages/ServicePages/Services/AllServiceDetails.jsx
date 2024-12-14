@@ -5,6 +5,11 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 const AllServiceDetails = ({ service }) => {
   const { title, image, price } = service;
+
+  const handleBookAppointment = (service) => {
+    console.log(service);
+  };
+
   return (
     <div>
       <div className=" bg-base-200 lg:min-h-screen mb-20">
@@ -30,9 +35,7 @@ const AllServiceDetails = ({ service }) => {
                 </div>
                 <div className="card-actions my-10">
                   <button
-                    onClick={() =>
-                      console.log("Service added to cart:", service)
-                    }
+                    onClick={() => handleBookAppointment(service)}
                     className="mt-4 w-full bg-orange-500 text-xl font-semibold text-white py-3 px-4 rounded-lg shadow hover:bg-orange-600"
                   >
                     <span>Book Appoinment</span>

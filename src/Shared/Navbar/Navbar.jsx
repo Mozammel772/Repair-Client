@@ -70,8 +70,8 @@ const Navbar = () => {
       }`}
     >
       <Container className="h-full flex items-center justify-between">
-        <h1 className="text-xl font-bold">Repair</h1>
-        {/* <img src={logoDark} alt="logoDark" className="w-10 " /> */}
+        {/* <h1 className="text-xl font-bold">Repair</h1> */}
+        <img src="https://i.ibb.co.com/g9KzBP1/fdd54d90-3481-43a9-ae3c-fe802a677c82.jpg" alt="logoDark" className="w-14 rounded-xl " />
 
         <div className="hidden md:flex items-center gap-x-6 uppercase text-xs lg:text-sm font-medium tracking-wide">
           {navigationLinks.map((item) => (
