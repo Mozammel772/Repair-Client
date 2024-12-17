@@ -102,7 +102,7 @@ const Category = () => {
       )}
 
       {!loading && !error && category.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
           {category.map((item, index) => (
             <div
               key={index}

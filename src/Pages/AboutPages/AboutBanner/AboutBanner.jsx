@@ -6,7 +6,7 @@ import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
 import Button from "../../../Shared/Button/Button";
 const AboutBanner = () => {
   return (
-    <div>
+    <div className="my-10">
       <div className="mt-20 bg-cover bg-no-repeat">
         <CoverSection img={image} tittle={"About Us "}></CoverSection>
       </div>
@@ -16,7 +16,7 @@ const AboutBanner = () => {
           subHeading={"About Us More Information"}
         />
       </div>
-      <div className="hero bg-base-200 min-h-screen">
+      <div className="hero  min-h-screen px-5">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <img
             src={image1}

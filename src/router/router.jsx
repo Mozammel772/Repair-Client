@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/DashBoard/Dashboard";
 import Mainlayout from "../layout/Mainlayout/Mainlayout";
+import ServicesLayout from "../layout/ServicesLayout/ServicesLayout";
 import About from "../Pages/AboutPages/About/About";
 import AllUsers from "../Pages/DashboardPages/AllUsers/AllUsers";
 import Dashboardhome from "../Pages/DashboardPages/Dashboardhome/Dashboardhome";
 import UserServicePost from "../Pages/DashboardPages/UserServicePost/UserServicePost";
 import ErrorPages from "../Pages/ErrorPages/ErrorPages";
 import Home from "../Pages/HomePages/Home/Home";
+import AllServices from "../Pages/HomePages/ServicePages/AllServices/AllServices";
+import EletricalServices from "../Pages/HomePages/ServicePages/EletricalRepairServices/EletricalServices";
 import ServiceDetails from "../Pages/HomePages/ServicePages/Services/ServiceDetails";
-import Services from "../Pages/HomePages/ServicePages/Services/Services";
 import ForgotPassword from "../Pages/Register/ForgetPassword/ForgetPassword";
 import Login from "../Pages/Register/Login/Login";
 import Register from "../Pages/Register/Register/Register";
@@ -25,14 +27,23 @@ export const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-     
       {
         path: "/about-us-more-information",
         element: <About />,
       },
       {
-        path: "/all-repair-services",
-        element: <Services />,
+        path: "all-repair-services",
+        element: <ServicesLayout />,
+        children: [
+          {
+            path: "",
+            element: <AllServices />,
+          },
+          {
+            path: "electrical-repair-service",
+            element: <EletricalServices />,
+          },
+        ],
       },
       {
         path: `/all-repair-services/:id`,
@@ -54,14 +65,6 @@ export const router = createBrowserRouter([
           </PrivateRouter>
         ),
       },
-      // {
-      //   path: "/user-dashboard",
-      //   element: (
-      //     <PrivateRouter>
-      //       <UserDashboard />
-      //     </PrivateRouter>
-      //   ),
-      // },
       {
         path: "/register",
         element: <Register />,

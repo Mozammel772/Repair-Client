@@ -110,7 +110,7 @@ const Register = () => {
                           <input
                             {...field}
                             id="name"
-                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                               error
                                 ? "border-red-500"
                                 : field.value
@@ -169,7 +169,7 @@ const Register = () => {
                           <input
                             {...field}
                             id="email"
-                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                               error
                                 ? "border-red-500"
                                 : field.value
@@ -228,7 +228,7 @@ const Register = () => {
                             {...field}
                             id="registerPassword"
                             type={showPassword ? "text" : "password"}
-                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                            className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 ${
                               error ? "border-red-500" : "border-gray-300"
                             }`}
                             placeholder="Enter Password"
@@ -262,7 +262,7 @@ const Register = () => {
               {/* Password Validation End */}
               <div className="form-control mt-6">
                 <input
-                  className="btn btn-secondary text-xl"
+                  className="mt-4 w-full bg-orange-500 text-xl font-semibold text-white py-3 px-4 rounded-lg shadow hover:bg-orange-600"
                   type="submit"
                   disabled={isSubmitting || Object.keys(errors).length > 0} // Disable if submitting or form is invalid
                   value={isSubmitting ? "Processing..." : "Register"}

@@ -5,7 +5,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { twMerge } from "tailwind-merge";
-import { AuthContext } from "../../Pages/Register/AuthProvider/AuthProvider";
+import { AuthContext } from "./Register/AuthProvider/AuthProvider";
 
 const Container = ({ children, className }) => {
   return (
@@ -22,16 +22,11 @@ const navigationLinks = [
     title: "Service",
     link: "/all-repair-services",
     subLinks: [
-      {
-        title: "Electrical Repair Service",
-        link: "/all-repair-services/electrical-repair-service",
-      },
+      { title: "Electrical Repair", link: "/services/electrical" },
       { title: "Plumbing Repair", link: "/services/plumbing" },
       { title: "HVAC Repair", link: "/services/hvac" },
       { title: "Appliance Repair", link: "/services/appliance" },
-    
     ],
-    
   },
   { title: "Service Request", link: "/service-request" },
   {
@@ -272,3 +267,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
